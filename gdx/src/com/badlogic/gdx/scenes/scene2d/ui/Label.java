@@ -218,7 +218,7 @@ public class Label extends Widget {
 	}
 
 	public float getPrefWidth () {
-		if (wrap) return 0;
+		// if (wrap) return 0;
 		if (sizeInvalid) scaleAndComputeSize();
 		float width = bounds.width;
 		Drawable background = style.background;
