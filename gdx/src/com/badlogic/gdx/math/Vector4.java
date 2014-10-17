@@ -276,4 +276,90 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 		return this;
 	}
 
+	/** Project this point onto a line
+	 * @param line line to project onto
+	 * @return this for chaining */
+	public Vector4 prj(Vector4 line) {
+		if (line.equals(Zero)) throw new IllegalArgumentException("Line is a zero vector");
+		
+		// l * p
+		// ----- * l = projection(p)
+		// l * l
+		float dotUpper = this.dot(line);
+		float dotLower = line.dot(line);
+		set(line).scl(dotUpper / dotLower);
+		return this;
+	}
+	
+	/** Project this point onto a line segment
+	 * @param start start of the line segment
+	 * @param end end of the line segment
+	 * @return this for chaining */
+	public Vector4 prj(Vector4 start, Vector4 end) {
+		Vector4 line = new Vector4(end).sub(start);
+		if (line.len2() == 0) {
+			set(start);
+			return this;
+		}
+		
+		prj(line);
+		
+		
+		// Clamp
+		Vector4 minVec;
+		Vector4 maxVec;
+		float minValue;
+		float maxValue;
+		float pointValue;
+		if (start.x != end.x) {
+			pointValue = x;
+			if (start.x < end.x) {
+				minVec = start;
+				maxVec = end;
+			} else {
+				minVec = end;
+				maxVec = start;
+			}
+			minValue = minVec.x;
+			maxValue = maxVec.x;
+		} else if (start.y != end.y) {
+			pointValue = y;
+			if (start.y < end.y) {
+				minVec = start;
+				maxVec = end;
+			} else {
+				minVec = end;
+				maxVec = start;
+			}
+			minValue = minVec.y;
+			maxValue = maxVec.y;
+		} else if (start.z != end.z) {
+			pointValue = z;
+			if (start.z < end.z) {
+				minVec = start;
+				maxVec = end;
+			} else {
+				minVec = end;
+				maxVec = start;
+			}
+			minValue = minVec.z;
+			maxValue = maxVec.z;
+		} else {
+			pointValue = w;
+			if (start.w < end.w) {
+				minVec = start;
+				maxVec = end;
+			} else {
+				minVec = end;
+				maxVec = start;
+			}
+			minValue = minVec.w;
+			maxValue = maxVec.w;
+		}
+		
+		if (pointValue < minValue) set(minVec);
+		else if (pointValue > maxValue) set(maxVec);
+		
+		return this;
+	}
 }
