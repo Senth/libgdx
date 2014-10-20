@@ -305,6 +305,21 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 		prj(line);
 		
 		
+		// Add 0-length values
+		if (start.x == end.x) {
+			x = start.x;
+		}
+		if (start.y == end.y) {
+			y = start.y;
+		}
+		if (start.z == end.z) {
+			z = start.z;
+		}
+		if (start.w == end.w) {
+			w = start.w;
+		}
+		
+		
 		// Clamp
 		Vector4 minVec;
 		Vector4 maxVec;
