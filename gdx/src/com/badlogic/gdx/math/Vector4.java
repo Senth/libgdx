@@ -1,66 +1,66 @@
+
 package com.badlogic.gdx.math;
 
 import java.io.Serializable;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import com.badlogic.gdx.utils.NumberUtils;
 
-/**
- * Minimalistic Vector4 implementation
- * 
- * @author Matteus Magnusson <matteus.magnusson@spiddekauga.com>
- */
+/** Minimalistic Vector4 implementation
+ *
+ * @author Matteus Magnusson <matteus.magnusson@spiddekauga.com> */
 public class Vector4 implements Serializable, Vector<Vector4> {
 	private static final long serialVersionUID = 3840568531545372522L;
-	
+
 	public float x = 0;
 	public float y = 0;
 	public float z = 0;
 	public float w = 0;
-	
+
 	public final static Vector4 X = new Vector4(1, 0, 0, 0);
 	public final static Vector4 Y = new Vector4(0, 1, 0, 0);
 	public final static Vector4 Z = new Vector4(0, 0, 1, 0);
 	public final static Vector4 W = new Vector4(0, 0, 0, 1);
 	public final static Vector4 Zero = new Vector4(0, 0, 0, 0);
-	
+
 	/** Constructors a vector at (0,0,0,0) */
 	public Vector4 () {
 		// Does nothing
 	}
-	
+
 	/** Creates a vector with the given components
 	 * @param x The x-component
 	 * @param y The y-component
 	 * @param z The z-component
 	 * @param w The w-component */
-	public Vector4(float x, float y, float z, float w) {
+	public Vector4 (float x, float y, float z, float w) {
 		this.set(x, y, z, w);
 	}
-	
+
 	/** Creates a vector from the given vector
 	 * @param vector The vector */
-	public Vector4(final Vector4 vector) {
+	public Vector4 (final Vector4 vector) {
 		this.set(vector);
 	}
-	
-	
+
 	@Override
 	public Vector4 cpy () {
 		return new Vector4(this);
 	}
 
 	/** @return Euclidian length */
-	public static float len(final float x, final float y, final float z, final float w) {
+	public static float len (final float x, final float y, final float z, final float w) {
 		return (float)Math.sqrt(x * x + y * y + z * z + w * w);
 	}
-	
+
 	@Override
 	public float len () {
 		return len(x, y, z, w);
 	}
-	
+
 	/** @return Squared euclidian length */
-	public static float len2(final float x, final float y, final float z, final float w) {
+	public static float len2 (final float x, final float y, final float z, final float w) {
 		return x * x + y * y + z * z + w * w;
 	}
 
@@ -71,21 +71,29 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 
 	@Override
 	public Vector4 limit (float limit) {
-		if (len2() > limit * limit) nor().scl(limit);
+		if (len2() > limit * limit) {
+			nor().scl(limit);
+		}
 		return this;
 	}
 
 	@Override
 	public Vector4 clamp (float min, float max) {
 		final float l2 = len2();
-		if (l2 == 0f) return this;
-		if (l2 > max * max) return nor().scl(max);
-		if (l2 < min * min) return nor().scl(min);
+		if (l2 == 0f) {
+			return this;
+		}
+		if (l2 > max * max) {
+			return nor().scl(max);
+		}
+		if (l2 < min * min) {
+			return nor().scl(min);
+		}
 		return this;
 	}
 
 	/** Sets the vector to the given components
-	 * 
+	 *
 	 * @param x The x-component
 	 * @param y The y-component
 	 * @param z The z-component
@@ -98,7 +106,7 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 		this.w = w;
 		return this;
 	}
-	
+
 	@Override
 	public Vector4 set (Vector4 v) {
 		return this.set(v.x, v.y, v.z, v.w);
@@ -108,9 +116,9 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 	public Vector4 sub (Vector4 v) {
 		return this.sub(v.x, v.y, v.z, v.w);
 	}
-	
+
 	/** Subtracts the other vector from this vector.
-	 * 
+	 *
 	 * @param x The x-component of the other vectorw
 	 * @param y The y-component of the other vector
 	 * @param z The z-component of the other vector
@@ -123,12 +131,14 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 	@Override
 	public Vector4 nor () {
 		final float len2 = this.len2();
-		if (len2 == 0f || len2 == 1f) return this;
+		if (len2 == 0f || len2 == 1f) {
+			return this;
+		}
 		return this.scl(1f / (float)Math.sqrt(len2));
 	}
-	
+
 	/** Add the other vector to this vector.
-	 * 
+	 *
 	 * @param x The x-component of the other vector
 	 * @param y The y-component of the other vector
 	 * @param z The z-component of the other vector
@@ -237,24 +247,48 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 
 	@Override
 	public boolean equals (Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		Vector4 other = (Vector4)obj;
-		if (NumberUtils.floatToIntBits(x) != NumberUtils.floatToIntBits(other.x)) return false;
-		if (NumberUtils.floatToIntBits(y) != NumberUtils.floatToIntBits(other.y)) return false;
-		if (NumberUtils.floatToIntBits(z) != NumberUtils.floatToIntBits(other.z)) return false;
-		if (NumberUtils.floatToIntBits(w) != NumberUtils.floatToIntBits(other.w)) return false;
+		if (NumberUtils.floatToIntBits(x) != NumberUtils.floatToIntBits(other.x)) {
+			return false;
+		}
+		if (NumberUtils.floatToIntBits(y) != NumberUtils.floatToIntBits(other.y)) {
+			return false;
+		}
+		if (NumberUtils.floatToIntBits(z) != NumberUtils.floatToIntBits(other.z)) {
+			return false;
+		}
+		if (NumberUtils.floatToIntBits(w) != NumberUtils.floatToIntBits(other.w)) {
+			return false;
+		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean epsilonEquals (Vector4 other, float epsilon) {
-		if (other == null) return false;
-		if (Math.abs(other.x - x) > epsilon) return false;
-		if (Math.abs(other.y - y) > epsilon) return false;
-		if (Math.abs(other.z - z) > epsilon) return false;
-		if (Math.abs(other.w - w) > epsilon) return false;
+		if (other == null) {
+			return false;
+		}
+		if (Math.abs(other.x - x) > epsilon) {
+			return false;
+		}
+		if (Math.abs(other.y - y) > epsilon) {
+			return false;
+		}
+		if (Math.abs(other.z - z) > epsilon) {
+			return false;
+		}
+		if (Math.abs(other.w - w) > epsilon) {
+			return false;
+		}
 		return true;
 	}
 
@@ -279,9 +313,11 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 	/** Project this point onto a line
 	 * @param line line to project onto
 	 * @return this for chaining */
-	public Vector4 prj(Vector4 line) {
-		if (line.equals(Zero)) throw new IllegalArgumentException("Line is a zero vector");
-		
+	public Vector4 prj (Vector4 line) {
+		if (line.equals(Zero)) {
+			throw new IllegalArgumentException("Line is a zero vector");
+		}
+
 		// l * p
 		// ----- * l = projection(p)
 		// l * l
@@ -290,21 +326,20 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 		set(line).scl(dotUpper / dotLower);
 		return this;
 	}
-	
+
 	/** Project this point onto a line segment
 	 * @param start start of the line segment
 	 * @param end end of the line segment
 	 * @return this for chaining */
-	public Vector4 prj(Vector4 start, Vector4 end) {
+	public Vector4 prj (Vector4 start, Vector4 end) {
 		Vector4 line = new Vector4(end).sub(start);
 		if (line.len2() == 0) {
 			set(start);
 			return this;
 		}
-		
+
 		prj(line);
-		
-		
+
 		// Add 0-length values
 		if (start.x == end.x) {
 			x = start.x;
@@ -318,8 +353,7 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 		if (start.w == end.w) {
 			w = start.w;
 		}
-		
-		
+
 		// Clamp
 		Vector4 minVec;
 		Vector4 maxVec;
@@ -371,10 +405,55 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 			minValue = minVec.w;
 			maxValue = maxVec.w;
 		}
-		
-		if (pointValue < minValue) set(minVec);
-		else if (pointValue > maxValue) set(maxVec);
-		
+
+		if (pointValue < minValue) {
+			set(minVec);
+		} else if (pointValue > maxValue) {
+			set(maxVec);
+		}
+
+		return this;
+	}
+
+	@Override
+	public Vector4 limit2 (float limit2) {
+		float len2 = len2();
+		if (len2 > limit2) {
+			scl((float)Math.sqrt(limit2 / len2));
+		}
+		return this;
+	}
+
+	@Override
+	public Vector4 setLength (float len) {
+		return setLength2(len * len);
+	}
+
+	@Override
+	public Vector4 setLength2 (float len2) {
+		float oldLen2 = len2();
+		return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));
+	}
+
+	@Override
+	public Vector4 interpolate (Vector4 target, float alpha, Interpolation interpolator) {
+		return lerp(target, interpolator.apply(0f, 1f, alpha));
+	}
+
+	@Override
+	public boolean isOnLine (Vector4 other, float epsilon) {
+		throw new NotImplementedException();
+// return len2(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x, ) <= epsilon;
+	}
+
+	@Override
+	public boolean isOnLine (Vector4 other) {
+		return isOnLine(other, MathUtils.FLOAT_ROUNDING_ERROR);
+	}
+
+	@Override
+	public Vector4 setZero () {
+		set(Zero);
 		return this;
 	}
 }
