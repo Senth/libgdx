@@ -3,8 +3,6 @@ package com.badlogic.gdx.math;
 
 import java.io.Serializable;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.badlogic.gdx.utils.NumberUtils;
 
 /** Minimalistic Vector4 implementation
@@ -442,7 +440,7 @@ public class Vector4 implements Serializable, Vector<Vector4> {
 
 	@Override
 	public boolean isOnLine (Vector4 other, float epsilon) {
-		throw new NotImplementedException();
+		throw new IllegalAccessError("Not implemented");
 // return len2(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x, ) <= epsilon;
 	}
 
