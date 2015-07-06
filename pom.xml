@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>5</version>
-  </parent>
+<!--   <parent> -->
+<!--     <groupId>org.sonatype.oss</groupId> -->
+<!--     <artifactId>oss-parent</artifactId> -->
+<!--     <version>5</version> -->
+<!--   </parent> -->
 
   <groupId>com.badlogicgames.gdx</groupId>
   <artifactId>gdx-parent</artifactId>
@@ -34,11 +34,11 @@
     </developer>
   </developers>
 
-  <scm>
-    <connection>scm:git:https://github.com/libgdx/libgdx.git</connection>
-    <developerConnection>scm:git:https://github.com/libgdx/libgdx.git</developerConnection>
-    <url>http://github.com/libgdx/libgdx</url>
-  </scm>
+<!--   <scm> -->
+<!--     <connection>scm:git:https://github.com/libgdx/libgdx.git</connection> -->
+<!--     <developerConnection>scm:git:https://github.com/libgdx/libgdx.git</developerConnection> -->
+<!--     <url>http://github.com/libgdx/libgdx</url> -->
+<!--   </scm> -->
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,11 +121,30 @@
         <artifactId>maven-install-plugin</artifactId>
         <version>2.3.1</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.5</version>
-      </plugin>
-    </plugins>
-  </build>
+<!--       <plugin> -->
+<!--         <groupId>org.apache.maven.plugins</groupId> -->
+<!--         <artifactId>maven-deploy-plugin</artifactId> -->
+<!--         <version>2.5</version> -->
+<!--       </plugin> -->
+	  </plugins>
+
+  		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>senth</id>
+			<name>Senth's Maven Repository</name>
+			<url>scp://senth.org/mnt/lvm/www/maven.senth.org/snapshots</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
+
 </project>
